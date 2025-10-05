@@ -70,7 +70,7 @@ All tools now support processing multiple files simultaneously as requested:
 ## Developer Information
 
 - **Developed By**: Satendra Goswami
-- **Instagram**: [@satendragoiswamii](https://www.instagram.com/satendragoiswamii)
+- **Instagram**: [@satendragoswamii](https://www.instagram.com/satendragoswamii)
 
 ## Troubleshooting
 
