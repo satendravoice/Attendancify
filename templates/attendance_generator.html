@@ -1,0 +1,145 @@
+{% extends "base_comprehensive.html" %}
+
+{% block title %}Attendance Generator{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-calendar-check"></i> Attendance Generator</h4>
+            </div>
+            <div class="card-body">
+                <div class="step-indicator">
+                    <div class="step active">
+                        <div class="step-circle">1</div>
+                        <div>Upload CSV</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">2</div>
+                        <div>Configure Sessions</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">3</div>
+                        <div>Download Results</div>
+                    </div>
+                </div>
+
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> 
+                    Process Zoom attendance logs and generate Excel reports with attendance status.
+                </div>
+
+                <!-- Mode Selection -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Processing Mode:</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="mode" id="mode_single" value="single" checked>
+                            <label class="form-check-label" for="mode_single">Single CSV File with Multiple Sessions</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="mode" id="mode_multiple" value="multiple">
+                            <label class="form-check-label" for="mode_multiple">Multiple CSV Files (Generate Excel per File)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="uploadForm" method="POST" action="{{ url_for('upload_attendance_file') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="mode" id="mode_input" value="single">
+                    
+                    <!-- Single File Upload -->
+                    <div id="single_upload" class="file-upload-section">
+                        <div class="mb-3">
+                            <label for="csv_file" class="form-label">Select CSV File</label>
+                            <input class="form-control" type="file" id="csv_file" name="csv_file" accept=".csv">
+                            <div class="form-text">Upload a single Zoom meeting attendance report CSV file.</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Multiple Files Upload -->
+                    <div id="multiple_upload" class="file-upload-section d-none">
+                        <div class="mb-3">
+                            <label for="csv_files" class="form-label">Select CSV Files</label>
+                            <input class="form-control" type="file" id="csv_files" name="csv_files" accept=".csv" multiple>
+                            <div class="form-text">Upload multiple Zoom meeting attendance report CSV files.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-upload"></i> Upload and Continue
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-question-circle"></i> Instructions</h5>
+            </div>
+            <div class="card-body">
+                <h6>Single CSV File Mode:</h6>
+                <ol>
+                    <li>Upload a single Zoom attendance CSV file</li>
+                    <li>Configure multiple sessions with different time requirements</li>
+                    <li>Process the attendance and download the results</li>
+                </ol>
+                
+                <h6 class="mt-3">Multiple CSV Files Mode:</h6>
+                <ol>
+                    <li>Upload multiple Zoom attendance CSV files</li>
+                    <li>Configure sessions for each file individually</li>
+                    <li>Process all files and download the results</li>
+                </ol>
+                
+                <p class="mb-0">
+                    The tool will generate Excel files with attendance status (Present/Absent) for each participant 
+                    based on the time requirements you specify for each session.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Handle mode switching
+    document.getElementById('mode_single').addEventListener('change', function() {
+        if (this.checked) {
+            document.getElementById('single_upload').classList.remove('d-none');
+            document.getElementById('multiple_upload').classList.add('d-none');
+            document.getElementById('mode_input').value = 'single';
+        }
+    });
+    
+    document.getElementById('mode_multiple').addEventListener('change', function() {
+        if (this.checked) {
+            document.getElementById('single_upload').classList.add('d-none');
+            document.getElementById('multiple_upload').classList.remove('d-none');
+            document.getElementById('mode_input').value = 'multiple';
+        }
+    });
+    
+    // Form validation
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        const mode = document.querySelector('input[name="mode"]:checked').value;
+        let isValid = false;
+        
+        if (mode === 'single') {
+            const fileInput = document.getElementById('csv_file');
+            isValid = fileInput.files.length > 0 && fileInput.files[0].name !== '';
+        } else {
+            const fileInput = document.getElementById('csv_files');
+            isValid = fileInput.files.length > 0;
+        }
+        
+        if (!isValid) {
+            e.preventDefault();
+            alert('Please select a file before uploading.');
+        }
+    });
+</script>
+{% endblock %}
