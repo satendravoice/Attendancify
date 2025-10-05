@@ -1,0 +1,20 @@
+Attendancify - Attendance Tools Suite
+
+Streamlined attendance management toolkit for educational institutions
+
+A Python-based web application that automates attendance processing from Zoom logs and Excel files. Features intelligent matching algorithms, batch processing capabilities, and automated report generation.
+
+Core Tools:
+- Attendance Generator: Process Zoom CSV files and create detailed Excel reports
+- Raw Excel Generator: Standardize attendance data from any Excel format
+- Attendance Matching: Match records across multiple sources with fuzzy name matching
+
+Benefits:
+- Eliminates manual Excel work
+- Handles participant name inconsistencies
+- Supports both small classrooms and large-scale processing
+- Clean web interface with batch processing
+
+Built by: Satendra Goswami  |   Tech Stack: Python, HTML   |   License: MIT
+
+Perfect for instructors and administrators managing digital learning sessions with reliable automation and error reduction.
