@@ -1,0 +1,90 @@
+{% extends "base_comprehensive.html" %}
+
+{% block title %}Attendancify - Professional Attendance Management{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="text-center mb-5">
+            <h1 class="display-3 mb-3">Attendancify</h1>
+            <p class="lead text-muted">Professional attendance management made simple</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card tool-card">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-calendar-check fa-3x text-success mb-3"></i>
+                            <h3 class="card-title">Attendance Generator</h3>
+                        </div>
+                        <p class="card-text">Process Zoom attendance logs and generate Excel reports with attendance status based on configurable session requirements.</p>
+                        <div class="text-center mt-4">
+                            <a href="{{ url_for('attendance_generator') }}" class="btn btn-primary">
+                                <i class="fas fa-cog me-2"></i>Use Tool
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card tool-card">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-file-excel fa-3x text-success mb-3"></i>
+                            <h3 class="card-title">Raw Excel Generator</h3>
+                        </div>
+                        <p class="card-text">Extract attendance data from Excel files and generate standardized raw attendance files.</p>
+                        <div class="text-center mt-4">
+                            <a href="{{ url_for('raw_excel_generator') }}" class="btn btn-primary">
+                                <i class="fas fa-cog me-2"></i>Use Tool
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card tool-card">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="fas fa-exchange-alt fa-3x text-success mb-3"></i>
+                            <h3 class="card-title">Attendance Matching</h3>
+                        </div>
+                        <p class="card-text">Match attendance data from different sources using intelligent name matching algorithms.</p>
+                        <div class="text-center mt-4">
+                            <a href="{{ url_for('attendance_matching') }}" class="btn btn-primary">
+                                <i class="fas fa-cog me-2"></i>Use Tool
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-5">
+            <div class="card-body">
+                <h2 class="text-center mb-4">About Attendancify</h2>
+                <p class="text-center text-muted mb-5">A comprehensive suite for processing, generating, and matching attendance data efficiently.</p>
+                
+                <div class="row">
+                    <div class="col-md-4 text-center mb-4">
+                        <i class="fas fa-bolt fa-2x text-success mb-3"></i>
+                        <h4>Fast Processing</h4>
+                        <p class="text-muted">Quickly process large attendance files with our optimized algorithms.</p>
+                    </div>
+                    <div class="col-md-4 text-center mb-4">
+                        <i class="fas fa-sync-alt fa-2x text-success mb-3"></i>
+                        <h4>Smart Matching</h4>
+                        <p class="text-muted">Intelligent name matching using fuzzy algorithms for accurate results.</p>
+                    </div>
+                    <div class="col-md-4 text-center mb-4">
+                        <i class="fas fa-file-export fa-2x text-success mb-3"></i>
+                        <h4>Export Ready</h4>
+                        <p class="text-muted">Generate clean, structured Excel reports ready for further analysis.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

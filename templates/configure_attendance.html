@@ -1,0 +1,130 @@
+{% extends "base_comprehensive.html" %}
+
+{% block title %}Attendancify - Configure Attendance Sessions{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-cog"></i> Configure Attendance Sessions</h4>
+                <p class="mb-0 text-white-50">Set up session times and attendance requirements</p>
+            </div>
+            <div class="card-body">
+                <div class="step-indicator">
+                    <div class="step completed">
+                        <div class="step-circle">1</div>
+                        <div>Upload CSV</div>
+                    </div>
+                    <div class="step active">
+                        <div class="step-circle">2</div>
+                        <div>Configure Sessions</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">3</div>
+                        <div>Download Results</div>
+                    </div>
+                </div>
+
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> 
+                    Configure the session times and minimum attendance requirements for each session.
+                </div>
+
+                <form id="sessionForm" method="POST" action="{{ url_for('process_attendance') }}">
+                    <input type="hidden" id="session_row_count" name="session_row_count" value="0">
+                    
+                    <div class="mb-3">
+                        <button type="button" id="addSessionBtn" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Add Session
+                        </button>
+                    </div>
+
+                    <div id="sessionsContainer">
+                        <!-- Session rows will be added here dynamically -->
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a href="{{ url_for('attendance_generator') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-play-circle"></i> Process Attendance
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let sessionIndex = 0;
+    // Get mode and file names from template context
+    const mode = '{{ mode }}';
+    const fileNames = {{ file_names|tojson }} || [];
+    
+    console.log('Mode:', mode);
+    console.log('File names:', fileNames);
+
+    document.getElementById('addSessionBtn').addEventListener('click', function() {
+        const container = document.getElementById('sessionsContainer');
+        const sessionDiv = document.createElement('div');
+        sessionDiv.className = 'card mb-3 session-item';
+        sessionDiv.innerHTML = `
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Session ${sessionIndex + 1}</span>
+                <button type="button" class="btn btn-danger btn-sm remove-session">
+                    <i class="fas fa-trash"></i> Remove
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    ${mode === 'multiple' ? `
+                    <div class="col-md-3 mb-3">
+                        <label for="file_name_${sessionIndex}" class="form-label">File</label>
+                        <select class="form-select" id="file_name_${sessionIndex}" name="file_name_${sessionIndex}" required>
+                            <option value="">Select a file</option>
+                            ${fileNames.map(name => `<option value="${name}">${name}</option>`).join('')}
+                        </select>
+                    </div>
+                    ` : ''}
+                    <div class="col-md-${mode === 'multiple' ? '3' : '4'} mb-3">
+                        <label for="start_time_${sessionIndex}" class="form-label">Start Time</label>
+                        <input type="datetime-local" class="form-control" id="start_time_${sessionIndex}" name="start_time_${sessionIndex}" required>
+                    </div>
+                    <div class="col-md-${mode === 'multiple' ? '3' : '4'} mb-3">
+                        <label for="end_time_${sessionIndex}" class="form-label">End Time</label>
+                        <input type="datetime-local" class="form-control" id="end_time_${sessionIndex}" name="end_time_${sessionIndex}" required>
+                    </div>
+                    <div class="col-md-${mode === 'multiple' ? '3' : '4'} mb-3">
+                        <label for="time_required_${sessionIndex}" class="form-label">Minimum Time Required (minutes)</label>
+                        <input type="number" class="form-control" id="time_required_${sessionIndex}" name="time_required_${sessionIndex}" min="0" step="0.1" value="30" required>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.appendChild(sessionDiv);
+        
+        // Add event listener to remove button
+        sessionDiv.querySelector('.remove-session').addEventListener('click', function() {
+            container.removeChild(sessionDiv);
+            updateSessionCount();
+        });
+        
+        sessionIndex++;
+        updateSessionCount();
+    });
+
+    function updateSessionCount() {
+        document.getElementById('session_row_count').value = document.querySelectorAll('.session-item').length;
+    }
+
+    // Add initial session
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('addSessionBtn').click();
+    });
+</script>
+{% endblock %}

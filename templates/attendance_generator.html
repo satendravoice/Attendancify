@@ -1,0 +1,101 @@
+{% extends "base_comprehensive.html" %}
+
+{% block title %}Attendancify - Attendance Generator{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="fas fa-calendar-check"></i> Attendance Generator</h4>
+                <p class="mb-0 text-muted">Process Zoom attendance logs and generate Excel reports</p>
+            </div>
+            <div class="card-body">
+                <div class="step-indicator">
+                    <div class="step active">
+                        <div class="step-circle">1</div>
+                        <div>Upload CSV</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">2</div>
+                        <div>Configure Sessions</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">3</div>
+                        <div>Download Results</div>
+                    </div>
+                </div>
+
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> 
+                    Process multiple Zoom attendance CSV files and generate Excel reports with attendance status.
+                </div>
+
+                <!-- Mode Selection - Only Multiple CSV Files Mode -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Processing Mode:</label>
+                    <div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="mode" id="mode_multiple" value="multiple" checked>
+                            <label class="form-check-label" for="mode_multiple">Multiple CSV Files (Generate Excel per File)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="uploadForm" method="POST" action="{{ url_for('upload_attendance_file') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="mode" id="mode_input" value="multiple">
+                    
+                    <!-- Multiple Files Upload (Only Option Now) -->
+                    <div id="multiple_upload" class="file-upload-section">
+                        <div class="mb-3">
+                            <label for="csv_files" class="form-label">Select CSV Files</label>
+                            <input class="form-control" type="file" id="csv_files" name="csv_files" accept=".csv" multiple required>
+                            <div class="form-text">Upload multiple Zoom meeting attendance report CSV files.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-upload"></i> Upload and Continue
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-question-circle"></i> Instructions</h5>
+            </div>
+            <div class="card-body">
+                <h6>Multiple CSV Files Mode:</h6>
+                <ol>
+                    <li>Upload multiple Zoom attendance CSV files</li>
+                    <li>Configure sessions for each file individually</li>
+                    <li>Process all files and download the results</li>
+                </ol>
+                
+                <p class="mb-0">
+                    The tool will generate Excel files with attendance status (Present/Absent) for each participant 
+                    based on the time requirements you specify for each session.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Form validation
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        const fileInput = document.getElementById('csv_files');
+        const isValid = fileInput.files.length > 0;
+        
+        if (!isValid) {
+            e.preventDefault();
+            alert('Please select at least one file before uploading.');
+        }
+    });
+</script>
+{% endblock %}

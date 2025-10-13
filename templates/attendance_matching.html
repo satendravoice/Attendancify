@@ -1,0 +1,109 @@
+{% extends "base_comprehensive.html" %}
+
+{% block title %}Attendancify - Attendance Matching{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="fas fa-exchange-alt"></i> Attendance Matching</h4>
+                <p class="mb-0 text-muted">Match attendance data from different sources using intelligent algorithms</p>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> 
+                    Match attendance data from different sources using intelligent name matching.
+                </div>
+
+                <form method="POST" action="{{ url_for('process_attendance_matching') }}" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">Output Format</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="output_format" id="format_xlsx" value="xlsx" checked>
+                                <label class="form-check-label" for="format_xlsx">Excel (.xlsx)</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="output_format" id="format_csv" value="csv">
+                                <label class="form-check-label" for="format_csv">CSV</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="master_files" class="form-label">Master File(s)</label>
+                                <input class="form-control" type="file" id="master_files" name="master_files" accept=".xlsx,.xls,.csv" multiple required>
+                                <div class="form-text">Upload master file(s) containing participant names and email addresses.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="raw_files" class="form-label">Raw Attendance File(s)</label>
+                                <input class="form-control" type="file" id="raw_files" name="raw_files" accept=".xlsx,.xls,.csv" multiple required>
+                                <div class="form-text">Upload raw attendance file(s) to match with master files.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <h5><i class="fas fa-exclamation-triangle"></i> Important Instructions</h5>
+                        <ul>
+                            <li><strong>File Pairing:</strong> The first master file will be matched with the first raw file, the second master with the second raw, and so on.</li>
+                            <li><strong>Selection Order:</strong> Please ensure files are selected in the correct order.</li>
+                            <li><strong>Equal Numbers:</strong> You should select the same number of master and raw files.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-info btn-lg">
+                            <i class="fas fa-exchange-alt"></i> Match Attendance
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-question-circle"></i> Instructions</h5>
+            </div>
+            <div class="card-body">
+                <h5>How to Use This Tool</h5>
+                <ol>
+                    <li><strong>Select Master Files:</strong> Choose one or more master files containing participant names and email addresses</li>
+                    <li><strong>Select Raw Files:</strong> Choose the corresponding raw attendance files to match</li>
+                    <li><strong>File Pairing:</strong> Files are matched in order:
+                        <ul>
+                            <li>1st master file ↔ 1st raw file</li>
+                            <li>2nd master file ↔ 2nd raw file</li>
+                            <li>And so on...</li>
+                        </ul>
+                    </li>
+                    <li><strong>Choose Output Format:</strong> Select Excel (.xlsx) or CSV format for results</li>
+                    <li><strong>Process:</strong> Click "Match Attendance" to start processing</li>
+                </ol>
+                
+                <h5 class="mt-3">Example</h5>
+                <p>If you have:</p>
+                <ul>
+                    <li>Master files: <code>ClassA_Master.xlsx</code>, <code>ClassB_Master.xlsx</code></li>
+                    <li>Raw files: <code>ClassA_Attendance.csv</code>, <code>ClassB_Attendance.xlsx</code></li>
+                </ul>
+                <p>The tool will match:</p>
+                <ul>
+                    <li><code>ClassA_Master.xlsx</code> with <code>ClassA_Attendance.csv</code></li>
+                    <li><code>ClassB_Master.xlsx</code> with <code>ClassB_Attendance.xlsx</code></li>
+                </ul>
+                
+                <p class="mb-0">
+                    This tool uses fuzzy matching algorithms to match attendance records from different sources, 
+                    even when names are spelled differently or formatted differently.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
