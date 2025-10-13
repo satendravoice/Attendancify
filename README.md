@@ -1,20 +1,48 @@
-# Attendancify
-**Professional Attendance Management Made Simple**
-[Live Deployment](https://aiattendance.pythonanywhere.com/)
+# Attendancify – Attendance Tools Suite
+
+Automated, accurate attendance management for modern education
+
+## 🚀 Live Demo
+
+Try it now: https://aiattendance.pythonanywhere.com/attendance_matching
 
 ## Overview
-Attendancify is a comprehensive, web-based suite designed to streamline and automate attendance management. Tailored for educators, trainers, and event organizers, it helps transform raw attendance data—especially Zoom meeting logs—into structured, actionable insights with minimal effort. The platform offers fast, reliable, and smart tools for generating, matching, and exporting attendance records.
 
-## Features
-Attendancify offers a unified dashboard for efficient access to all essential tools, enabling users to effortlessly navigate core features. The Attendance Generator lets you upload and process multiple Zoom CSV logs, configure session criteria, and automatically produce detailed Excel attendance reports that mark each participant as present or absent. The Raw Excel Generator transforms inconsistent or messy attendance data into standardized, ready-to-analyze formats, making batch processing and clean exports simple. With Attendance Matching, disparate attendance sources are reconciled using intelligent fuzzy name-matching algorithms, ensuring reliable participant tracking. The system is engineered for fast processing of large and complex files through optimized backend routines, while advanced smart matching ensures robust, error-tolerant data correlation. All results are clearly exported into structured Excel reports suitable for academic, corporate, or administrative needs.
+Attendancify is designed for educators and organizations conducting online classes via Zoom. The app automates attendance tracking by processing Zoom session logs, calculating each participant's presence based on their precise session duration. Administrators can set custom time thresholds to specify how much time is needed to be marked present—ensuring exact and error-free attendance calculation.
 
-## How It Works
-### Attendance Generator
-1. **Upload**: Select and upload multiple Zoom attendance CSV files.
-2. **Configure**: Set minimum required attendance durations or other criteria per session.
-3. **Process & Export**: Generate Excel reports with automatically computed attendance statuses (Present/Absent).
+Key features:
 
-**Instructions:**
-- Upload your CSV Zoom reports
-- Optionally adjust session requirements
-- Download generated Excel files for each session—ready for use or submission
+- **Automatic Attendance Generation**: Instantly creates verified attendance records from Zoom logs, with time criteria customizable by the admin.
+- **Second-Level Precision**: Checks each participant's session duration down to the second, eliminating manual calculation errors.
+- **Master Sheet Matching Tool**: Cross-matches session attendance with a master student list. Quickly identifies which enrolled students missed the session for easy reporting and compliance.
+- **Batch Processing**: Runs on multiple sessions or files efficiently.
+
+This suite streamlines reporting, enhances accuracy, and saves time for instructors and admins managing digital learning environments.
+
+## Tech Stack
+
+- **Python** (backend, batch automation, matching algorithms)
+- **HTML** (frontend UI)
+- Simple, user-friendly web interface
+
+## Getting Started
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/satendravoice/Attendancify.git
+   ```
+
+2. Install requirements:
+   ```
+   pip install -r requirements.txt
+   ```
+
+3. See HOW_TO_RUN.md for step-by-step instructions
+
+## License
+
+MIT
+
+**Developed by:** Satendra Goswami
+
+Attendance Tools Suite © 2025
