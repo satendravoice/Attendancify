@@ -4,7 +4,7 @@ Automated, accurate attendance management for modern education.
 
 ## 🚀 Live Demo
 
-[Try it now](https://aiattendance.pythonanywhere.com/attendance_matching)
+[Try it now](https://aiattendance.pythonanywhere.com)
 
 ## Overview
 
