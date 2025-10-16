@@ -135,12 +135,12 @@ def match_and_write(master_file: str, raw_file: str, out_fmt: str = "xlsx") -> s
 # ----------- Routes -----------
 @app.route('/')
 def index():
-    return render_template('comprehensive_index.html')
+    return render_template('comprehensive_index.html', show_navigation=False)
 
 # ----------- Attendance Generator Routes -----------
 @app.route('/attendance_generator')
 def attendance_generator():
-    return render_template('attendance_generator.html')
+    return render_template('attendance_generator.html', show_navigation=True)
 
 @app.route('/upload_attendance', methods=['POST'])
 def upload_attendance_file():
@@ -197,10 +197,10 @@ def upload_attendance_file():
 def configure_attendance_sessions():
     mode = session.get('mode', 'single')
     if mode == 'single':
-        return render_template('configure_attendance.html', mode='single')
+        return render_template('configure_attendance.html', mode='single', show_navigation=True)
     else:
         file_names = session.get('file_names', [])
-        return render_template('configure_attendance.html', mode='multiple', file_names=file_names)
+        return render_template('configure_attendance.html', mode='multiple', file_names=file_names, show_navigation=True)
 
 @app.route('/process_attendance', methods=['POST'])
 def process_attendance():
@@ -403,7 +403,7 @@ def download_attendance():
 # ----------- Raw Excel Generator Routes -----------
 @app.route('/raw_excel_generator')
 def raw_excel_generator():
-    return render_template('raw_excel_generator.html')
+    return render_template('raw_excel_generator.html', show_navigation=True)
 
 @app.route('/process_raw_excel', methods=['POST'])
 def process_raw_excel():
@@ -478,7 +478,7 @@ def download_raw_excel():
 # ----------- Attendance Matching Routes -----------
 @app.route('/attendance_matching')
 def attendance_matching():
-    return render_template('attendance_matching.html')
+    return render_template('attendance_matching.html', show_navigation=True)
 
 @app.route('/process_attendance_matching', methods=['POST'])
 def process_attendance_matching():

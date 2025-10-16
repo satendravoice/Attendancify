@@ -9,19 +9,35 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/attendancify-spotify.css') }}">
 </head>
-<body>
+<body class="{% if not show_navigation|default(False) %}home-page{% endif %}">
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h1 class="loading-text">Welcome to <span class="attendancify-text">Attendancify</span></h1>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Matrix Background Container -->
+    <div id="matrix-background"></div>
+    
+    {% if show_navigation|default(False) %}
     <header class="header">
         <div class="container-fluid">
             <div class="d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center">
+                    <!-- Mobile menu button -->
+                    <button class="mobile-menu-btn d-md-none me-2" id="mobileMenuBtn" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
                     <a class="navbar-brand" href="{{ url_for('index') }}" aria-label="Attendancify Home">
                         <i class="fas fa-calendar-check"></i> Attendancify
                     </a>
-                    <nav class="main-nav d-none d-md-block ms-4">
+                    <nav class="main-nav ms-4">
                         <ul class="nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('index') }}" aria-current="page">Dashboard</a>
-                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url_for('attendance_generator') }}">Attendance Generator</a>
                             </li>
@@ -42,6 +58,41 @@
             </div>
         </div>
     </header>
+    
+    <!-- Mobile Sidebar -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="sidebar-header">
+            <button class="close-sidebar" id="closeSidebar" aria-label="Close navigation">
+                <i class="fas fa-times"></i>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('index') }}" aria-label="Attendancify Home">
+                <i class="fas fa-calendar-check"></i> Attendancify
+            </a>
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('attendance_generator') }}">
+                        <i class="fas fa-calendar-check"></i> Attendance Generator
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('raw_excel_generator') }}">
+                        <i class="fas fa-file-excel"></i> Raw Excel Generator
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('attendance_matching') }}">
+                        <i class="fas fa-exchange-alt"></i> Attendance Matching
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    
+    <!-- Mobile sidebar overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    {% endif %}
 
     <main class="main-content">
         <div class="container">
@@ -62,6 +113,11 @@
         </div>
     </main>
 
+    <!-- Scroll to bottom button -->
+    <button class="scroll-to-bottom" id="scrollToBottom" title="Scroll to bottom">
+        <i class="fas fa-arrow-down"></i>
+    </button>
+
     <footer class="footer">
         <div class="container-fluid">
             <div class="d-flex justify-content-center align-items-center">
@@ -78,6 +134,128 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='js/theme-switcher.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/matrix-effect.js') }}"></script>
+    <script>
+        // Check if we should show the loading screen (only on direct homepage visits)
+        function shouldShowLoadingScreen() {
+            // Check if this is a direct visit to the homepage (not a navigation within the site)
+            const referrer = document.referrer;
+            const currentHost = window.location.host;
+            
+            // If there's no referrer or the referrer is from a different domain, show loading screen
+            if (!referrer || !referrer.includes(currentHost)) {
+                return true;
+            }
+            
+            // If this is a refresh or direct URL access to homepage, show loading screen
+            // We use sessionStorage to track if user has already seen the loading screen
+            if (sessionStorage.getItem('hasSeenLoadingScreen') !== 'true') {
+                sessionStorage.setItem('hasSeenLoadingScreen', 'true');
+                return true;
+            }
+            
+            return false;
+        }
+        
+        // Ensure loading screen displays for at least 4-5 seconds
+        let loadingStartTime = Date.now();
+        let minimumLoadingTime = 4500; // 4.5 seconds
+        
+        // Hide loading screen when page is fully loaded AND minimum time has passed
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                // Add fade out effect
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.transition = 'opacity 0.5s ease-out';
+                
+                // Remove loading screen after fade out
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }
+        }
+        
+        // Check if minimum loading time has passed
+        function checkLoadingTime() {
+            const currentTime = Date.now();
+            const elapsedTime = currentTime - loadingStartTime;
+            
+            if (elapsedTime >= minimumLoadingTime) {
+                hideLoadingScreen();
+            } else {
+                // Wait for remaining time
+                const remainingTime = minimumLoadingTime - elapsedTime;
+                setTimeout(hideLoadingScreen, remainingTime);
+            }
+        }
+        
+        // Initialize loading screen behavior
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if we should show the loading screen
+            if (!shouldShowLoadingScreen()) {
+                // Hide loading screen immediately if not needed
+                const loadingScreen = document.getElementById('loading-screen');
+                if (loadingScreen) {
+                    loadingScreen.style.display = 'none';
+                }
+            } else {
+                // Start the loading time check when page is loaded
+                window.addEventListener('load', function() {
+                    checkLoadingTime();
+                });
+            }
+            
+            // Scroll to bottom functionality
+            const scrollToBottomBtn = document.getElementById('scrollToBottom');
+            
+            if (scrollToBottomBtn) {
+                scrollToBottomBtn.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: document.body.scrollHeight,
+                        behavior: 'smooth'
+                    });
+                });
+                
+                // Hide button when at bottom of page
+                window.addEventListener('scroll', function() {
+                    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                        scrollToBottomBtn.style.opacity = '0';
+                        scrollToBottomBtn.style.transform = 'scale(0.8)';
+                    } else {
+                        scrollToBottomBtn.style.opacity = '0.8';
+                        scrollToBottomBtn.style.transform = 'scale(1)';
+                    }
+                });
+            }
+            
+            // Mobile menu functionality
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const closeSidebar = document.getElementById('closeSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            if (mobileMenuBtn && mobileSidebar && closeSidebar && sidebarOverlay) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileSidebar.classList.add('active');
+                    sidebarOverlay.classList.add('active');
+                    document.body.classList.add('sidebar-open');
+                });
+                
+                closeSidebar.addEventListener('click', function() {
+                    mobileSidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                    document.body.classList.remove('sidebar-open');
+                });
+                
+                sidebarOverlay.addEventListener('click', function() {
+                    mobileSidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                    document.body.classList.remove('sidebar-open');
+                });
+            }
+        });
+    </script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

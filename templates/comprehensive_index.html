@@ -3,88 +3,186 @@
 {% block title %}Attendancify - Professional Attendance Management{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-12 col-md-10 col-lg-8">
-        <div class="text-center mb-5">
-            <h1 class="display-3 mb-3">Attendancify</h1>
-            <p class="lead text-muted">Professional attendance management made simple</p>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card tool-card">
-                    <div class="card-body">
-                        <div class="text-center mb-4">
-                            <i class="fas fa-calendar-check fa-3x text-success mb-3"></i>
-                            <h3 class="card-title">Attendance Generator</h3>
-                        </div>
-                        <p class="card-text">Process Zoom attendance logs and generate Excel reports with attendance status based on configurable session requirements.</p>
-                        <div class="text-center mt-4">
-                            <a href="{{ url_for('attendance_generator') }}" class="btn btn-primary">
-                                <i class="fas fa-cog me-2"></i>Use Tool
-                            </a>
-                        </div>
+<div class="home-screen-content">
+    <!-- Home screen header text -->
+    <div class="home-screen-header">
+        <h1>Attendancify</h1>
+        <p>Professional attendance management made simple</p>
+    </div>
+    
+    <!-- Home screen only theme switcher -->
+    <div class="home-theme-switcher">
+        <button id="home-theme-toggle" class="btn btn-sm btn-outline-light" aria-label="Toggle theme">
+            <i class="fas fa-sun"></i>
+        </button>
+    </div>
+    
+    <div class="row justify-content-center home-screen-card-grid">
+        <div class="col-md-4 mb-4">
+            <div class="card tool-card">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-calendar-check fa-3x text-success mb-3"></i>
+                        <h3 class="card-title">Attendance Generator</h3>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card tool-card">
-                    <div class="card-body">
-                        <div class="text-center mb-4">
-                            <i class="fas fa-file-excel fa-3x text-success mb-3"></i>
-                            <h3 class="card-title">Raw Excel Generator</h3>
-                        </div>
-                        <p class="card-text">Extract attendance data from Excel files and generate standardized raw attendance files.</p>
-                        <div class="text-center mt-4">
-                            <a href="{{ url_for('raw_excel_generator') }}" class="btn btn-primary">
-                                <i class="fas fa-cog me-2"></i>Use Tool
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card tool-card">
-                    <div class="card-body">
-                        <div class="text-center mb-4">
-                            <i class="fas fa-exchange-alt fa-3x text-success mb-3"></i>
-                            <h3 class="card-title">Attendance Matching</h3>
-                        </div>
-                        <p class="card-text">Match attendance data from different sources using intelligent name matching algorithms.</p>
-                        <div class="text-center mt-4">
-                            <a href="{{ url_for('attendance_matching') }}" class="btn btn-primary">
-                                <i class="fas fa-cog me-2"></i>Use Tool
-                            </a>
-                        </div>
+                    <p class="card-text">Process Zoom attendance logs and generate Excel reports with attendance status based on configurable session requirements.</p>
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('attendance_generator') }}" class="btn btn-primary">
+                            <i class="fas fa-cog me-2"></i>Use Tool
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="card mt-5">
-            <div class="card-body">
-                <h2 class="text-center mb-4">About Attendancify</h2>
-                <p class="text-center text-muted mb-5">A comprehensive suite for processing, generating, and matching attendance data efficiently.</p>
-                
-                <div class="row">
-                    <div class="col-md-4 text-center mb-4">
-                        <i class="fas fa-bolt fa-2x text-success mb-3"></i>
-                        <h4>Fast Processing</h4>
-                        <p class="text-muted">Quickly process large attendance files with our optimized algorithms.</p>
+        <div class="col-md-4 mb-4">
+            <div class="card tool-card">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-file-excel fa-3x text-success mb-3"></i>
+                        <h3 class="card-title">Raw Excel Generator</h3>
                     </div>
-                    <div class="col-md-4 text-center mb-4">
-                        <i class="fas fa-sync-alt fa-2x text-success mb-3"></i>
-                        <h4>Smart Matching</h4>
-                        <p class="text-muted">Intelligent name matching using fuzzy algorithms for accurate results.</p>
+                    <p class="card-text">Extract attendance data from Excel files and generate standardized raw attendance files.</p>
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('raw_excel_generator') }}" class="btn btn-primary">
+                            <i class="fas fa-cog me-2"></i>Use Tool
+                        </a>
                     </div>
-                    <div class="col-md-4 text-center mb-4">
-                        <i class="fas fa-file-export fa-2x text-success mb-3"></i>
-                        <h4>Export Ready</h4>
-                        <p class="text-muted">Generate clean, structured Excel reports ready for further analysis.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card tool-card">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-exchange-alt fa-3x text-success mb-3"></i>
+                        <h3 class="card-title">Attendance Matching</h3>
+                    </div>
+                    <p class="card-text">Match attendance data from different sources using intelligent name matching algorithms.</p>
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('attendance_matching') }}" class="btn btn-primary">
+                            <i class="fas fa-cog me-2"></i>Use Tool
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <!-- Combined About & Usage Section -->
+    <div class="card mt-5">
+        <div class="card-body">
+            <h2 class="text-center mb-4">About Attendancify</h2>
+            
+            <div class="row mb-4">
+                <div class="col-md-4 text-center mb-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-bolt fa-2x text-success"></i>
+                    </div>
+                    <h4>Fast Processing</h4>
+                    <p class="text-muted">Quickly process large attendance files with our optimized algorithms.</p>
+                </div>
+                <div class="col-md-4 text-center mb-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-sync-alt fa-2x text-success"></i>
+                    </div>
+                    <h4>Smart Matching</h4>
+                    <p class="text-muted">Intelligent name matching using fuzzy algorithms for accurate results.</p>
+                </div>
+                <div class="col-md-4 text-center mb-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-file-export fa-2x text-success"></i>
+                    </div>
+                    <h4>Export Ready</h4>
+                    <p class="text-muted">Generate clean, structured Excel reports ready for further analysis.</p>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+            
+            <h3 class="text-center mb-4">How to Use Attendancify</h3>
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <div class="usage-step-card">
+                        <div class="usage-step-icon mb-3">
+                            <i class="fas fa-calendar-check fa-2x text-success"></i>
+                        </div>
+                        <div class="usage-step-number">1</div>
+                        <h5>Attendance Generator</h5>
+                        <p class="mb-0">Upload Zoom attendance reports and configure session requirements to generate initial attendance files.</p>
+                        <div class="usage-step-note mt-2">
+                            <i class="fas fa-exclamation-circle text-warning me-1"></i>
+                            <small>Human verification required</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="usage-step-card">
+                        <div class="usage-step-icon mb-3">
+                            <i class="fas fa-file-excel fa-2x text-success"></i>
+                        </div>
+                        <div class="usage-step-number">2</div>
+                        <h5>Raw Excel Generator</h5>
+                        <p class="mb-0">Extract and standardize attendance data from various Excel formats for consistency.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="usage-step-card">
+                        <div class="usage-step-icon mb-3">
+                            <i class="fas fa-exchange-alt fa-2x text-success"></i>
+                        </div>
+                        <div class="usage-step-number">3</div>
+                        <h5>Attendance Matching</h5>
+                        <p class="mb-0">Match attendance records from different sources using intelligent name matching algorithms.</p>
+                        <div class="usage-step-note mt-2">
+                            <i class="fas fa-exclamation-circle text-warning me-1"></i>
+                            <small>Human verification required</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center mb-0 text-muted">
+                <i class="fas fa-info-circle me-1"></i>
+                This is an AI-based tool. Please verify results as AI can make mistakes.
+            </p>
+        </div>
+    </div>
 </div>
+
+<script>
+    // Add home screen theme switcher functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const homeThemeToggle = document.getElementById('home-theme-toggle');
+        if (homeThemeToggle) {
+            // Copy the theme switcher functionality from theme-switcher.js
+            homeThemeToggle.addEventListener('click', function() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                
+                // Update icon
+                const icon = this.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('fa-sun');
+                    icon.classList.toggle('fa-moon');
+                }
+                
+                // Save preference
+                localStorage.setItem('theme', newTheme);
+            });
+            
+            // Set initial icon based on current theme
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                const icon = homeThemeToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
+
+{% block scripts %}
 {% endblock %}

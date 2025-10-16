@@ -3,10 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = themeToggle.querySelector('i');
     
-    // Check for saved theme preference or respect OS preference
+    // Make dark mode the default
     const savedTheme = localStorage.getItem('theme');
-    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-    const currentTheme = savedTheme || (prefersLight ? 'light' : 'dark');
+    const currentTheme = savedTheme || 'dark';
     
     // Apply theme
     document.documentElement.setAttribute('data-theme', currentTheme);
